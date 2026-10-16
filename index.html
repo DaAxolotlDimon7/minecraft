@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Block World - Minecraft Style</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #87CEEB;
+      font-family: sans-serif;
+    }
+    #info {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: white;
+      text-shadow: 1px 1px 2px black;
+      pointer-events: none;
+    }
+    canvas {
+      display: block;
+      background: #87CEEB;
+    }
+  </style>
+</head>
+<body>
+  <div id="info">
+    <h3>Mini Block World</h3>
+    <p>Click anywhere on the screen to place blocks!</p>
+  </div>
+  <canvas id="gameCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let blocks = [];
+    const blockSize = 40;
+
+    function drawBlocks() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      blocks.forEach(b => {
+        ctx.fillStyle = b.color;
+        ctx.fillRect(b.x, b.y, blockSize, blockSize);
+        ctx.strokeStyle = "#5C4033";
+        ctx.strokeRect(b.x, b.y, blockSize, blockSize);
+      });
+    }
+
+    canvas.addEventListener("click", e => {
+      const x = Math.floor(e.clientX / blockSize) * blockSize;
+      const y = Math.floor(e.clientY / blockSize) * blockSize;
+      blocks.push({ x, y, color: "#8B4513" });
+      drawBlocks();
+    });
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      drawBlocks();
+    });
+  </script>
+</body>
+</html>
